@@ -1,7 +1,14 @@
-from django.urls import path
-from . import views
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .api_views import ProjectViewSet, TaskViewSet, CommentViewSet, MembershipViewSet, MeViewSet
+
+router = DefaultRouter()
+router.register(r"projects", ProjectViewSet, basename="project")
+router.register(r"tasks", TaskViewSet, basename="task")
+router.register(r"comments", CommentViewSet, basename="comment")
+router.register(r"memberships", MembershipViewSet, basename="membership")
+router.register(r"me", MeViewSet, basename="me")
 
 urlpatterns = [
-    path("", views.dashboard, name="dashboard"),
-    path("project/<int:project_id>/", views.project_detail, name="project_detail"),
+    path("", include(router.urls)),
 ]

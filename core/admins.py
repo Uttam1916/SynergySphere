@@ -1,6 +1,11 @@
 from django.contrib import admin
 from .models import Project, Task
 
+admin.site.register(Project)
+admin.site.register(Task)
+admin.site.register(Message)
+
+
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
     list_display = ("name", "owner", "created_at")
