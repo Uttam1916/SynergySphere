@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+*.pyo
+*.pyd
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.log
+*.pot
+*.pyc
+*.zip
+*.tar.gz
+*.whl
+*.db
+
+# Virtual environments
+venv/
+env/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Django stuff
+*.sqlite3
+db.sqlite3
+/media/
+staticfiles/
+.DS_Store
+
+# If using Django migrations cach

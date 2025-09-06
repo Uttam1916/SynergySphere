@@ -1,0 +1,5 @@
+Django>=5.0,<6.0
+psycopg2-binary>=2.9
+django-environ       # for .env files (keep DB password/secret key outside code)
+django-crispy-forms  # nicer forms UI (if you use Django forms)
+
