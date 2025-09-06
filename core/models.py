@@ -1,42 +1,31 @@
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin
+from django.db import models
+from django.contrib.auth.models import User
 
-db = SQLAlchemy()
 
-# User model
-class User(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(200), nullable=False)
+class Project(models.Model):
+    name = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="projects")
+    created_at = models.DateTimeField(auto_now_add=True)
 
-# Project model
-class Project(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), nullable=False)
-    description = db.Column(db.Text)
-    owner_id = db.Column(db.Integer, db.ForeignKey("user.id"))
-    owner = db.relationship("User", backref="projects")
+    def __str__(self):
+        return self.name
 
-# Task model
-class Task(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(120), nullable=False)
-    description = db.Column(db.Text)
-    status = db.Column(db.String(20), default="To-Do")  # To-Do, In Progress, Done
-    due_date = db.Column(db.Date)
-    assignee_id = db.Column(db.Integer, db.ForeignKey("user.id"))
-    project_id = db.Column(db.Integer, db.ForeignKey("project.id"))
 
-    assignee = db.relationship("User", backref="tasks")
-    project = db.relationship("Project", backref="tasks")
+class Task(models.Model):
+    STATUS_CHOICES = [
+        ("todo", "To Do"),
+        ("in_progress", "In Progress"),
+        ("done", "Done"),
+    ]
 
-# Comment model
-class Comment(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.Text, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
-    task_id = db.Column(db.Integer, db.ForeignKey("task.id"))
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="tasks")
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    assignee = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="todo")
+    due_date = models.DateField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
-    user = db.relationship("User", backref="comments")
-    task = db.relationship("Task", backref="comments")
+    def __str__(self):
+        return self.title
