@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="mb-6 flex justify-between items-center">
+    <div>
+        <h1 class="text-3xl font-bold">{{ project.name }}</h1>
+        <p class="text-gray-600">{{ project.description }}</p>
+    </div>
+    <a href="{% url 'task_create' project.id %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+        + New Task
+    </a>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- To-Do Column -->
+    <div class="bg-gray-100 rounded-lg p-4">
+        <h2 class="text-xl font-semibold mb-4 text-center">To-Do</h2>
+        {% for task in todo_tasks %}
+            {% include 'tasks/task_card.html' with task=task %}
+        {% empty %}
+            <p class="text-gray-500 text-center">No tasks to do</p>
+        {% endfor %}
+    </div>
+    
+    <!-- In Progress Column -->
+    <div class="bg-gray-100 rounded-lg p-4">
+        <h2 class="text-xl font-semibold mb-4 text-center">In Progress</h2>
+        {% for task in in_progress_tasks %}
+            {% include 'tasks/task_card.html' with task=task %}
+        {% empty %}
+            <p class="text-gray-500 text-center">No tasks in progress</p>
+        {% endfor %}
+    </div>
+    
+    <!-- Done Column -->
+    <div class="bg-gray-100 rounded-lg p-4">
+        <h2 class="text-xl font-semibold mb-4 text-center">Done</h2>
+        {% for task in done_tasks %}
+            {% include 'tasks/task_card.html' with task=task %}
+        {% empty %}
+            <p class="text-gray-500 text-center">No completed tasks</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
