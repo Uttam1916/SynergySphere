@@ -26,8 +26,8 @@ input, select, textarea {
 
 input:focus, select:focus, textarea:focus {
     outline: none;
-    /* ring: 2px; */
-    /* ring-color: #3b82f6;   uncomment after  manage.py is done*/
+    ring: 2px; 
+    ring-color: #3b82f6;  
     border-color: #3b82f6;
 }
 
