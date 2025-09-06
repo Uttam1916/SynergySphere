@@ -1,0 +1,26 @@
+<div class="bg-white rounded-lg shadow p-4 mb-4 hover:shadow-md transition-shadow">
+    <h3 class="font-semibold mb-2">{{ task.title }}</h3>
+    <p class="text-sm text-gray-600 mb-2">{{ task.description|truncatewords:10 }}</p>
+    
+    <div class="flex justify-between items-center text-sm">
+        <span class="{% if task.due_date and task.due_date < now %}text-red-500{% else %}text-gray-500{% endif %}">
+            {% if task.due_date %}
+                Due: {{ task.due_date|date:"M d, Y" }}
+            {% else %}
+                No due date
+            {% endif %}
+        </span>
+        
+        <span class="text-gray-500">
+            {% if task.assigned_to %}
+                {{ task.assigned_to.username }}
+            {% else %}
+                Unassigned
+            {% endif %}
+        </span>
+    </div>
+    
+    <div class="mt-3">
+        <a href="{% url 'task_detail' task.id %}" class="text-blue-600 text-sm hover:text-blue-800">View Details →</a>
+    </div>
+</div>
